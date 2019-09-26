@@ -1,2 +1,9 @@
 *.DS_Store
 
+# temporary files
+bin/
+build/
+
+# eclipse file
+.cproject
+.project
