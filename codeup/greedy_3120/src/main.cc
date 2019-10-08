@@ -7,6 +7,14 @@ int main(int argc, char **argv) {
 	int degree[2];
 	char input[REMOTE_MAX_INPUT];
 	input[5] = ' ';
+	/* buttons */
+	int buttons[BTN_COUNT];
+	buttons[0] = BTN_DEGREE_ADD_1;
+	buttons[1] = BTN_DEGREE_ADD_5;
+	buttons[2] = BTN_DEGREE_ADD_10;
+	buttons[3] = BTN_DEGREE_SUB_1;
+	buttons[4] = BTN_DEGREE_SUB_5;
+	buttons[5] = BTN_DEGREE_SUB_10;
 
 	/* User input */
 	while (true) {
@@ -31,46 +39,47 @@ int main(int argc, char **argv) {
 	}
 
 	/* greedy algorithm */
-	if (degree[1] > degree[0]) {
-		/* UP */
-		std::cout<< "UP" <<std::endl;
+	int count = 0;
 
-	} else if (degree[1] < degree[0]) {
-		/* DOWN */
-		std::cout<< "DWON" <<std::endl;
-		int tmp = degree[1];
-		degree[1] = degree[0];
-		degree[0] = tmp;
-	} else {
+	if (degree [1] == degree[0]) {
 		/* No action is needed */
-		std::cout<< "NO ACTION" <<std::endl;
+		//std::cout<< "NO ACTION" <<std::endl;
 
+		std::cout << count << std::endl;
 		return 0;
 	}
 
-	std::cout<< degree[0] << " : " << degree[1] <<std::endl;
-
-	int count = 0;
 	while (true) {
 		int gap = degree[1] - degree[0];
-		if (BTN_DEGREE_10 <= gap) {
-			degree[0] += BTN_DEGREE_10;
-			++count;
-			std::cout<< "count: " << count << " push button: " << BTN_DEGREE_10 << "    " << degree[0] << ":" << degree[1] <<std::endl;
-		} else if (BTN_DEGREE_5 <= gap) {
-			degree[0] += BTN_DEGREE_5;
-			++count;
-			std::cout<< "count: " << count << " push button: " << BTN_DEGREE_5 << "     " << degree[0] << ":" << degree[1] <<std::endl;
-		} else if (BTN_DEGREE_1 <= gap) {
-			degree[0] += BTN_DEGREE_1;
-			++count;
-			std::cout<< "count: " << count << " push button: " << BTN_DEGREE_1 << "     " << degree[0] << ":" << degree[1] <<std::endl;
-		} else if (0 == gap) {
+
+		if (0 == gap) {
+			/* terminate */
 			break;
+		} else {
+			/* search result */
+			int button = 0;
+			int distance = 0;
+			for (int i = 0; BTN_COUNT > i; ++i) {
+				int tmp_dis = std::abs(degree[1] - (degree[0] + buttons[i]));
+
+				if(0 == i) {
+					button = buttons[i];
+					distance = tmp_dis;
+				} else {
+					if (distance > tmp_dis) {
+						button = buttons[i];
+						distance = tmp_dis;
+					}
+				}
+			}
+			++count;
+			degree[0] += button;
+
+			// std::cout << "add: " << button << ", now: " << degree[0] << ", target: " << degree[1] << count << std::endl;
 		}
 	}
 
-	std::cout << "Count: " << count << std::endl;
+	std::cout << count << std::endl;
 
 	return 0;
 }
