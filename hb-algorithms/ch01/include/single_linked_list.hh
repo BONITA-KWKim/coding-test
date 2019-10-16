@@ -1,13 +1,16 @@
 #ifndef __SINGLE_LINKED_LIST_HH__
 #define __SINGLE_LINKED_LIST_HH__
 
+#include <cstdlib>
+#include <cstring>
+
 typedef struct tagNodeData {
 	int data;
 } NodeData;
 
 typedef struct tagNode {
-	NodeData *data;
-	tagNode *nextNode;
+	NodeData data_element;
+	struct tagNode *next_node;
 } Node;
 
 class CSingleLinkedList {
@@ -15,15 +18,15 @@ public:
 	CSingleLinkedList(){};
 	~CSingleLinkedList(){};
 
-	int create_SLL_node(int data);
+	Node *create_SLL_node(NodeData *data);
 	void destroy_SLL_node(Node *node);
-	int append_SLL_node(Node **head, Node *newNode);
-	int remove_SLL_node(Node **head, Node *targetNode);
-	int search_SLL_node(Node **head, Node *targetNode);
-	int insert_after_SLL_node(Node **head, Node *newNode);
-	int insert_before_SLL_node(Node **head, Node *newNode);
+	void append_SLL_node(Node **head, Node *new_node);
+	int remove_SLL_node(Node **head, Node *target_node);
+	int search_SLL_node(Node **head, Node *target_node);
+	int insert_after_SLL_node(Node **head, Node *new_node);
+	int insert_before_SLL_node(Node **head, Node *new_node);
 	Node *get_SLL_node(Node **head, int position);
-	int get_position_SLL_node(Node **head, Node *targetNode);
+	int get_position_SLL_node(Node **head, Node *target_node);
 private:
 };
 
